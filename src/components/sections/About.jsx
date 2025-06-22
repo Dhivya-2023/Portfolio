@@ -1,7 +1,7 @@
 import React from 'react';
 import { MapPin, Zap } from 'lucide-react';
 import TechCard from '../TechCard';
-import { techStack } from '../../data/techStack';
+import { techStack } from "@/data/techstack";
 
 const About = () => {
   return (

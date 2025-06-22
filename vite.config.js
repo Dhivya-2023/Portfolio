@@ -4,7 +4,7 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/PORTFOLIO/', // 👈 REPLACE with your actual repo name
+   base: '/Portfolio/', 
   plugins: [react()],
   resolve: {
     alias: {

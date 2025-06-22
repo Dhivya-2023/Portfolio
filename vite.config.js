@@ -10,5 +10,6 @@ export default defineConfig(({ command }) => ({
   },
   build: {
     sourcemap: false,    // ← turn off source-maps in prod
+     outDir: 'dist',  
   },
 }))

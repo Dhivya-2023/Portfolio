@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, FolderOpen, ArrowRight } from 'lucide-react';
+import { ExternalLink, FolderOpen, ArrowRight, FileText, Lock, Globe } from 'lucide-react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 const ProjectCard = ({ project, index }) => {
@@ -20,35 +20,66 @@ const ProjectCard = ({ project, index }) => {
       
       <div className="relative p-8">
         <div className="flex justify-between items-start mb-6">
-          <div>
-            <span className="inline-block px-3 py-1 text-xs font-medium bg-purple-500/20 text-purple-300 rounded-full mb-3">
-              {project.type}
-            </span>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="inline-block px-3 py-1 text-xs font-medium bg-purple-500/20 text-purple-300 rounded-full">
+                {project.type}
+              </span>
+              {project.isPrivate ? (
+                <Lock size={14} className="text-gray-400" />
+              ) : (
+                <Globe size={14} className="text-green-400" />
+              )}
+            </div>
             <h3 className="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors duration-300">
               {project.title}
             </h3>
           </div>
           
-          <div className="flex space-x-3">
+          <div className="flex space-x-2 ml-4">
             {!project.isPrivate && project.link && (
               <a
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 bg-slate-700/50 rounded-lg text-gray-400 hover:text-white hover:bg-purple-500/20 transition-all duration-300 transform hover:scale-110"
+                title="Live Demo"
               >
                 <ExternalLink size={18} />
               </a>
             )}
-            {/* <div className="p-2 bg-slate-700/50 rounded-lg text-gray-400">
-              <FolderOpen size={18} />
-            </div> */}
+            {project.apiDocs && (
+              <a
+                href={project.apiDocs}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-slate-700/50 rounded-lg text-gray-400 hover:text-white hover:bg-blue-500/20 transition-all duration-300 transform hover:scale-110"
+                title="API Documentation"
+              >
+                <FileText size={18} />
+              </a>
+            )}
           </div>
         </div>
 
-        <p className="text-gray-300 leading-relaxed mb-6 line-clamp-3">
+        <p className="text-gray-300 leading-relaxed mb-6">
           {project.description}
         </p>
+
+        {/* Highlights Section - Show key achievements */}
+        {project.highlights && project.highlights.length > 0 && (
+          <div className="mb-6">
+            <h4 className="text-sm font-semibold text-purple-300 mb-3">Key Features:</h4>
+            <ul className="space-y-1">
+              {project.highlights.slice(0, 3).map((highlight, i) => (
+                <li key={i} className="text-sm text-gray-400 flex items-start">
+                  <span className="text-purple-400 mr-2 mt-1">•</span>
+                  {highlight}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="flex flex-wrap gap-2 mb-6">
           {project.tech.map((tech, i) => (
@@ -61,14 +92,47 @@ const ProjectCard = ({ project, index }) => {
           ))}
         </div>
 
-        <div className={`flex items-center text-purple-400 font-medium transition-all duration-300 ${
-          isHovered ? 'translate-x-2' : ''
-        }`}>
-          {/* <span className="mr-2">View Project</span>
-          <ArrowRight size={16} className={`transition-transform duration-300 ${
-            isHovered ? 'translate-x-1' : ''
-          }`} /> */}
-        </div>
+        {/* Action Links */}
+        {(!project.isPrivate && (project.link || project.apiDocs)) && (
+          <div className="flex items-center gap-4 pt-4 border-t border-slate-700/50">
+            {project.link && (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex items-center text-purple-400 font-medium transition-all duration-300 hover:text-purple-300 ${
+                  isHovered ? 'translate-x-1' : ''
+                }`}
+              >
+                <span className="mr-2">Live Demo</span>
+                <ArrowRight size={16} className={`transition-transform duration-300 ${
+                  isHovered ? 'translate-x-1' : ''
+                }`} />
+              </a>
+            )}
+            {project.apiDocs && (
+              <a
+                href={project.apiDocs}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center text-blue-400 font-medium transition-all duration-300 hover:text-blue-300"
+              >
+                <span className="mr-2">API Docs</span>
+                <FileText size={16} />
+              </a>
+            )}
+          </div>
+        )}
+
+        {/* Private Project Indicator */}
+        {project.isPrivate && (
+          <div className="flex items-center gap-4 pt-4 border-t border-slate-700/50">
+            <div className="flex items-center text-gray-400 font-medium">
+              <Lock size={16} className="mr-2" />
+              <span>Internal/Private Project</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

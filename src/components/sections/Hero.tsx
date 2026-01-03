@@ -7,7 +7,7 @@ import codePattern from "@/assets/code-pattern.png";
 const Hero = () => {
   const stats = [
     { value: "4+", label: "Projects Delivered" },
-    { value: "1+", label: "Years Experience" },
+    { value: "2+", label: "Years Experience" },
     { value: "10+", label: "Technologies" },
     { value: "100%", label: "Success Rate" },
   ];
